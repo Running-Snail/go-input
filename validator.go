@@ -1,10 +1,12 @@
 package input
 
 import (
+    "fmt"
     "errors"
-    "strconv"
-    "unicode/utf8"
     "net/url"
+    "strconv"
+    "encoding/json"
+    "unicode/utf8"
     "gopkg.in/mgo.v2/bson"
 )
 
@@ -101,6 +103,17 @@ func (v *Validator) ObjectId(data string, errMsg string) {
         return
     }
     if !bson.IsObjectIdHex(data) {
+        v.Err = errors.New(errMsg)
+    }
+}
+
+func (v *Validator) JSONString(data string, errMsg string) {
+    if v.Err != nil {
+        return
+    }
+    var r interface{}
+    if err := json.Unmarshal([]byte(data), r); err != nil {
+        fmt.Println(err)
         v.Err = errors.New(errMsg)
     }
 }
