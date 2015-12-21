@@ -1,7 +1,6 @@
 package input
 
 import (
-    "fmt"
     "errors"
     "net/url"
     "strconv"
@@ -112,8 +111,7 @@ func (v *Validator) JSONString(data string, errMsg string) {
         return
     }
     var r interface{}
-    if err := json.Unmarshal([]byte(data), r); err != nil {
-        fmt.Println(err)
+    if err := json.Unmarshal([]byte(data), &r); err != nil {
         v.Err = errors.New(errMsg)
     }
 }
